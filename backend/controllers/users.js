@@ -1,13 +1,11 @@
-const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch(() =>
-      res.status(500).send({ message: "Ocorreu um erro no servidor" })
-    );
+    .catch(() => res.status(500).send({ message: "Ocorreu um erro no servidor" }));
 };
 
 module.exports.getUserById = (req, res) => {
@@ -55,20 +53,22 @@ module.exports.getUserInfo = (req, res) => {
 };
 
 module.exports.createUsers = (req, res) => {
-  const { email, name, about, avatar } = req.body;
+  const {
+    email, name, about, avatar,
+  } = req.body;
 
-  bcrypt.hash(req.body.password, 10).then((hash) =>
-    User.create({ email, password: hash, name, about, avatar })
-      .then((user) => res.send({ user }))
-      .catch((error) => {
-        if (error.name === "ValidationError") {
-          return res
-            .status(400)
-            .send({ message: "Os dados fornecidos são inválidos" });
-        }
-        return res.status(500).send({ message: "Ocorreu um erro no servidor" });
-      })
-  );
+  bcrypt.hash(req.body.password, 10).then((hash) => User.create({
+    email, password: hash, name, about, avatar,
+  })
+    .then((user) => res.send({ user }))
+    .catch((error) => {
+      if (error.name === "ValidationError") {
+        return res
+          .status(400)
+          .send({ message: "Os dados fornecidos são inválidos" });
+      }
+      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+    }));
 };
 
 module.exports.updateUserProfile = (req, res) => {

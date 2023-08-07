@@ -3,9 +3,7 @@ const Card = require("../models/card");
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ cards }))
-    .catch(() =>
-      res.status(500).send({ message: "Ocorreu um erro no servidor" })
-    );
+    .catch(() => res.status(500).send({ message: "Ocorreu um erro no servidor" }));
 };
 
 module.exports.postCard = (req, res) => {
@@ -32,7 +30,7 @@ module.exports.deleteCard = (req, res) => {
       throw error;
     })
     .then((card) => {
-      if (card.user._id != req.user._id) {
+      if (card.user._id !== req.user._id) {
         const error = new Error("Usuário não possui autorização");
         error.statusCode = 403;
         error.name = "Forbidden";
@@ -59,7 +57,7 @@ module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
       const error = new Error("Nenhum cartão encontrado com esse id");
@@ -83,7 +81,7 @@ module.exports.dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remova _id do array
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
       const error = new Error("Nenhum cartão encontrado com esse id");
