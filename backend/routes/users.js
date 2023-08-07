@@ -2,9 +2,9 @@ const router = require("express").Router();
 const { auth } = require("../middleware/auth");
 
 const {
-  getUsers,
-  getUserById,
-  getUserByJWT,
+  // getUsers,
+  // getUserById,
+  getUserInfo,
   createUsers,
   login,
   updateUserProfile,
@@ -19,7 +19,7 @@ router.post("/sigin", login);
 
 router.post("/sigup", createUsers);
 
-router.get("/users/me", auth, getUserByJWT);
+router.get("/users/me", auth, getUserInfo);
 
 router.patch("/users/me", auth, updateUserProfile);
 

@@ -32,7 +32,7 @@ module.exports.getUserById = (req, res) => {
     });
 };
 
-module.exports.getUserByJWT = (req, res) => {
+module.exports.getUserInfo = (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
