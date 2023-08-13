@@ -1,0 +1,4 @@
+.footer {
+  margin-top: min(68px, calc(3.21vw + 39.71px));
+  margin-bottom: min(60px, calc(4.29vw + 22.29px));
+}

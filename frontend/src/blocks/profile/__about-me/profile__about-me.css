@@ -1,0 +1,20 @@
+.profile__about-me {
+  grid-area: about-me;
+  font-weight: 400;
+  font-size: min(
+    18px,
+    calc(0.71vw + 11.71px)
+  ); /* from 18 px in 880px view width to 14px in 330px view width */
+  line-height: min(
+    22px,
+    calc(0.89vw + 14.14px)
+  ); /* from 22 px in 880px view width to 17px in 330px view width */
+  width: 100%;
+  text-align: left;
+}
+
+@media screen and (max-width: 650px) {
+  .profile__about-me {
+    text-align: center;
+  }
+}

@@ -1,0 +1,15 @@
+.post__delete-button {
+  background-color: transparent;
+  border: transparent;
+  margin: 0px;
+  position: absolute;
+  top: 18px;
+  right: 15px;
+
+  cursor: pointer;
+  transition: opacity linear 0.5s;
+}
+
+.post__delete-button:hover {
+  opacity: 0.6;
+}

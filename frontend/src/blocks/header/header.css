@@ -1,0 +1,19 @@
+.header {
+  margin-top: min(
+    45px,
+    calc(3.04vw + 18.29px)
+  ); /* from 45 px in 880px view width to 28px in 330px view width */
+
+  height: min(
+    74px,
+    calc(3.21vw + 45.71px)
+  ); /* from 74 px in 880px view width to 56px in 330px view width */
+
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7); /* converting #545454 with opacity 0.7 to rgba */
+
+  box-sizing: border-box; /* using it to prevent border to count in header's height */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

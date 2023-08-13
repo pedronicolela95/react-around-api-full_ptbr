@@ -1,0 +1,24 @@
+.profile__info {
+  color: white;
+  margin: 0;
+  margin-left: 30px;
+  display: grid;
+  grid-template-areas:
+    "name edit-button"
+    "about-me about-me";
+  row-gap: min(
+    16px,
+    calc(0.36vw + 12.86px)
+  ); /* from 16px in 880px view width to 14px in 330px view width */
+  column-gap: min(
+    18px,
+    calc(1.43vw + 5.43px)
+  ); /* from 18px in 880px view width to 10px in 330px view width */
+}
+
+@media screen and (max-width: 650px) {
+  .profile__info {
+    margin: 0;
+    margin-top: 30px;
+  }
+}

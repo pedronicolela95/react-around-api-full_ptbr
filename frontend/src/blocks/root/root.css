@@ -1,0 +1,15 @@
+* {
+  max-width: 880px;
+  margin: 0 auto; /* setting body to be centered and without margins */
+  padding: 0; /* reseting all paddings */
+
+  background-color: #000000;
+  list-style: none; /* reseting all list styles */
+  border: none;
+
+  font-family: "Inter", Arial, sans-serif; /*using font imported from https://rsms.me/inter/ */
+}
+
+button {
+  background-color: transparent;
+}

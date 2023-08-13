@@ -1,0 +1,24 @@
+.posts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  margin-top: min(
+    50px,
+    calc(2.5vw + 28px)
+  ); /* from 50px in 880px view width to 36px in 330px view width */
+  row-gap: 20px;
+  column-gap: 5px; /* putting a minimum gap to avoid overlapping */
+}
+
+@media screen and (max-width: 860px) {
+  .posts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .posts {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

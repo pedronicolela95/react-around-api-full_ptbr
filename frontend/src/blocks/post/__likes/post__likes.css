@@ -1,0 +1,9 @@
+.post__likes {
+  background-color: transparent;
+  border: transparent;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  right: 18px;
+  bottom: 0px;
+}

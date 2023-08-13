@@ -1,0 +1,9 @@
+.post {
+  background-color: white;
+
+  width: 282px;
+  height: 361px;
+  border-radius: 10px;
+  position: relative;
+  margin: 0 auto;
+}

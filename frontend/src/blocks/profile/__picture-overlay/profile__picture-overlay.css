@@ -1,0 +1,14 @@
+.profile__picture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background-color: transparent;
+  z-index: 2;
+  transition: background-color linear 0.5s;
+}
+
+.profile__image:hover .profile__picture-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}

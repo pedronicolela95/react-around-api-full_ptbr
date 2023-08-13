@@ -1,0 +1,13 @@
+.login__input {
+  height: 27px;
+  width: 100%;
+  margin: 0 auto 50px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 2px solid #ccc;
+}
+
+.login__input:not(.empty) {
+  color: #fff;
+}

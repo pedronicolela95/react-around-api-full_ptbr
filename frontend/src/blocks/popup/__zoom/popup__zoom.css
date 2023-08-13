@@ -1,0 +1,12 @@
+.popup__zoom {
+  z-index: 3;
+  background-color: transparent;
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  position: relative;
+  pointer-events: none;
+}

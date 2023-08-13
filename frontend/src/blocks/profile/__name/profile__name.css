@@ -1,0 +1,12 @@
+.profile__name {
+  grid-area: name;
+  font-weight: 500;
+  font-size: min(
+    42px,
+    calc(3.57vw + 10.57px)
+  ); /* from 42 px in 880px view width to 22px in 330px view width */
+  line-height: min(
+    48px,
+    calc(3.75vw + 15px)
+  ); /* from 48 px in 880px view width to 27px in 330px view width */
+}

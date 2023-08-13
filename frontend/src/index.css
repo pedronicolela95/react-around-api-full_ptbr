@@ -1,0 +1,79 @@
+/* normalizing the webpage */
+@import url(./vendor/normalize.css);
+
+/* importing fonts */
+@import url(./fonts/inter/inter.css);
+
+/* default settings */
+@import url(./blocks/root/root.css);
+
+/* header's settings */
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__image.css/header__image.css);
+@import url(./blocks/header/__info/header__info.css);
+@import url(./blocks/header/__message/header__message.css);
+@import url(./blocks/header/__signout_link/header__signout_link.css);
+
+/* profile's section settings */
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile/__image/profile__image.css);
+@import url(./blocks/profile/__picture-overlay/profile__picture-overlay.css);
+@import url(./blocks/profile/__edit-picture/profile__edit-picture.css);
+@import url(./blocks/profile/__picture/profile__picture.css);
+@import url(./blocks/profile/__info/profile__info.css);
+@import url(./blocks/profile/__name/profile__name.css);
+@import url(./blocks/profile/__about-me/profile__about-me.css);
+@import url(./blocks/profile/__edit-button/profile__edit-button.css);
+@import url(./blocks/profile/__add-button/profile__add-button.css);
+@import url(./blocks/profile/__plus-sign/profile__plus-sign.css);
+
+/* posts' section settings */
+@import url(./blocks/posts/posts.css);
+
+/* post's settings */
+@import url(./blocks/post/post.css);
+@import url(./blocks/post/__delete-button/post__delete-button.css);
+@import url(./blocks/post/__image/post__image.css);
+@import url(./blocks/post/__description/post__description.css);
+@import url(./blocks/post/__likes/post__likes.css);
+@import url(./blocks/post/__like-number/post__like-number.css);
+@import url(./blocks/post/__like-button/post__like-button.css);
+
+/* footer's settings */
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/__author/footer__author.css);
+
+/* popups's settings */
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/__overlay/popup__overlay.css);
+@import url(./blocks/popup/__form/popup__form.css);
+@import url(./blocks/popup/__close-button/popup__close-button.css);
+@import url(./blocks/popup/__inputs/popup__inputs.css);
+@import url(./blocks/popup/__title/popup__title.css);
+@import url(./blocks/popup/__title/_delete-button/popup__title_delete-form.css);
+@import url(./blocks/popup/__input/popup__input.css);
+@import url(./blocks/popup/__input/_type_error/popup__input_type_error.css);
+@import url(./blocks/popup/__error/popup__error.css);
+@import url(./blocks/popup/__error/_visible/popup__error_visible.css);
+@import url(./blocks/popup/__button/popup__button.css);
+@import url(./blocks/popup/__button/_disabled/popup__button_disabled.css);
+
+/* Zoom's setting */
+@import url(./blocks/popup/__zoom/popup__zoom.css);
+@import url(./blocks/popup/__image/popup__image.css);
+@import url(./blocks/popup/__description/popup__description.css);
+@import url(./blocks/popup/__close-button/_zoom/popup__close-button_zoom.css);
+
+/* importing login */
+@import url(./blocks/login/login.css);
+@import url(./blocks/login/__header/login__header.css);
+@import url(./blocks/login/__input/login__input.css);
+@import url(./blocks/login/__button/login__button.css);
+@import url(./blocks/login/__subtitle/login__subtitle.css);
+
+/* importing info tool tip */
+
+@import url(./blocks/info_tool_tip/info_tool_tip.css);
+@import url(./blocks/info_tool_tip/__body/info_tool_tip__body.css);
+@import url(./blocks/info_tool_tip/__image/info_tool_tip__image.css);
+@import url(./blocks/info_tool_tip/__message/info_tool_tip__message.css);

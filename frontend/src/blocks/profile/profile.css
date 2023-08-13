@@ -1,0 +1,21 @@
+.profile {
+  display: flex;
+  align-items: center; /* align boxes in the middle of the container */
+  margin: 0;
+  margin-top: 40px;
+  position: relative; /* using this property to position the add-button in the left size of the container */
+}
+
+@media screen and (max-width: 880px) {
+  .profile {
+    margin-top: calc(
+      -0.36vw + 43.14px
+    ); /* from 40 px in 880px view width to 42px in 330px view width */
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .profile {
+    flex-direction: column;
+  }
+}

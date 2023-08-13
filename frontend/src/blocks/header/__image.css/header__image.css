@@ -1,0 +1,16 @@
+.header__image {
+  margin: 0; /* positioning the element in the top */
+
+  width: min(
+    173px,
+    calc(8.39vw + 99.14px)
+  ); /* from 173 px in 880px view width to 126px in 320px view width */
+}
+
+@media screen and (max-width: 880px) {
+  .header__image {
+    margin-left: calc(
+      -4.82vw + 42.43px
+    ); /* from 0px in 880px view width to 27px in 320px view width */
+  }
+}

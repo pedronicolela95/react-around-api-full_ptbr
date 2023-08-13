@@ -1,0 +1,6 @@
+.footer__author {
+  font-weight: 400;
+  font-size: min(18px, calc(0.71vw + 11.71px));
+  line-height: min(22px, calc(0.89vw + 14.14px));
+  color: #545454;
+}

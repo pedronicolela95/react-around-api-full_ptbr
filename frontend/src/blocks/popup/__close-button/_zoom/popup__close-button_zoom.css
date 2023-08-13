@@ -1,0 +1,10 @@
+.popup__close-button_zoom {
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  width: min(40px, calc(2.5vw + 18px));
+
+  transition: opacity linear 0.5s;
+  right: -(min(40px, calc(2.5vw + 18px)));
+  pointer-events: auto;
+}

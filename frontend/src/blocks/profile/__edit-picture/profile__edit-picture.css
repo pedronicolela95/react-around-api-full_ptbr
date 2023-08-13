@@ -1,0 +1,15 @@
+.profile__edit-picture {
+  background: transparent;
+  position: absolute;
+  top: 47px;
+  right: 47px;
+  width: 26px;
+  opacity: 0;
+  height: 26px;
+  z-index: 3;
+  transition: opacity linear 0.5s;
+}
+
+.profile__image:hover .profile__edit-picture {
+  opacity: 100%;
+}

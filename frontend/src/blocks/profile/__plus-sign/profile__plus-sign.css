@@ -1,0 +1,7 @@
+.profile__plus-sign {
+  margin: auto; /* centering it */
+  width: min(
+    22px,
+    calc(1.07vw + 12.57px)
+  ); /* from 22 px in 880px view width to 18px in 330px view width */
+}
