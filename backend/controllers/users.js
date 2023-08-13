@@ -2,12 +2,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+const NotFoundError = require("../errors/not-found-err");
+const BadRequestError = require("../errors/bad-request-err");
+const NotAuthorizedError = require("../errors/not-authorized-err");
+const ConflictError = require("../errors/conflict-error");
+
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch(() =>
-      res.status(500).send({ message: "Ocorreu um erro no servidor" })
-    );
+    .catch((error) => {
+      next(error);
+    });
 };
 
 module.exports.getUserById = (req, res) => {
@@ -15,21 +20,15 @@ module.exports.getUserById = (req, res) => {
     .select("+password")
     .then((user) => {
       if (!user) {
-        const error = new Error("Nenhum cartão encontrado com esse id");
-        error.statusCode = 404;
-        error.name = "NotFoundError";
-        throw error;
+        throw new NotFoundError("Nenhum usuário encontrado com esse id");
       }
       res.send({ user });
     })
     .catch((error) => {
       if (error.name === "CastError") {
-        return res.status(400).send({ message: "Formato de ID não válido" });
+        error = new BadRequestError("Formato de ID não válido");
       }
-      if (error.name === "NotFoundError") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
@@ -38,45 +37,45 @@ module.exports.getUserInfo = (req, res) => {
     .select("+password")
     .then((user) => {
       if (!user) {
-        const error = new Error("Nenhum cartão encontrado com esse id");
-        error.statusCode = 404;
-        error.name = "NotFoundError";
-        throw error;
+        throw new NotFoundError("Nenhum usuário encontrado com esse id");
       }
       res.send({ user });
     })
     .catch((error) => {
       if (error.name === "CastError") {
-        return res.status(400).send({ message: "Formato de ID não válido" });
+        error = new BadRequestError("Formato de ID não válido");
       }
-      if (error.name === "NotFoundError") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
 module.exports.createUsers = (req, res) => {
   const { email, name, about, avatar } = req.body;
 
-  bcrypt.hash(req.body.password, 10).then((hash) =>
-    User.create({
-      email,
-      password: hash,
-      name,
-      about,
-      avatar,
+  User.findOne({ email })
+    .then((existingUser) => {
+      if (existingUser) {
+        throw new ConflictError("E-mail já está em uso");
+      }
+
+      return bcrypt.hash(req.body.password, 10);
     })
-      .then((user) => res.send({ user }))
-      .catch((error) => {
-        if (error.name === "ValidationError") {
-          return res
-            .status(400)
-            .send({ message: "Os dados fornecidos são inválidos" });
-        }
-        return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+    .then((hash) =>
+      User.create({
+        email,
+        password: hash,
+        name,
+        about,
+        avatar,
       })
-  );
+    )
+    .then((user) => res.send({ user }))
+    .catch((error) => {
+      if (error.name === "ValidationError") {
+        error = new BadRequestError("Os dados fornecidos são inválidos");
+      }
+      next(error);
+    });
 };
 
 module.exports.updateUserProfile = (req, res) => {
@@ -87,11 +86,9 @@ module.exports.updateUserProfile = (req, res) => {
     })
     .catch((error) => {
       if (error.name === "ValidationError") {
-        return res
-          .status(400)
-          .send({ message: "Os dados fornecidos são inválidos" });
+        error = new BadRequestError("Os dados fornecidos são inválidos");
       }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
@@ -103,11 +100,9 @@ module.exports.updateUserAvatar = (req, res) => {
     })
     .catch((error) => {
       if (error.name === "ValidationError") {
-        return res
-          .status(400)
-          .send({ message: "Os dados fornecidos são inválidos" });
+        error = new BadRequestError("Os dados fornecidos são inválidos");
       }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
@@ -122,7 +117,8 @@ module.exports.login = (req, res) => {
         }),
       });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
+    .catch((error) => {
+      error = new NotAuthorizedError("Autorização necessária");
+      next(error);
     });
 };

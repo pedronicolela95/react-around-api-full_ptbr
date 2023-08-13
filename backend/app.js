@@ -8,6 +8,8 @@ const userRoute = require("./routes/users");
 const cardRoute = require("./routes/cards");
 const { auth } = require("./middleware/auth");
 
+const NotFoundError = require("./errors/not-found-err");
+
 const app = express();
 
 mongoose.connect("mongodb://localhost:27017/aroundb", {
@@ -21,14 +23,16 @@ app.use(auth);
 app.use(userRoute);
 app.use(cardRoute);
 
-app.use((req, res) => {
-  res.status(404).send({ message: "A solicitação não foi encontrada" });
+app.use((req, res, next) => {
+  const error = new NotFoundError("A solicitação não foi encontrada");
+  next(error);
 });
 
-app.use((err, req, res) => {
-  res.status(500).send({ message: "Um erro ocorreu no servidor" });
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.message = err.message || "Um erro ocorreu no servidor";
 
-  throw new Error(err);
+  res.status(err.statusCode).send({ message: err.message });
 });
 
 app.listen(PORT);

@@ -1,9 +1,12 @@
 const Card = require("../models/card");
+const BadRequestError = require("../errors/bad-request-err");
+const ForbiddenError = require("../errors/forbidden-err");
+const NotFoundError = require("../errors/not-found-err");
 
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ cards }))
-    .catch(() => res.status(500).send({ message: "Ocorreu um erro no servidor" }));
+    .catch((error) => next(error));
 };
 
 module.exports.postCard = (req, res) => {
@@ -13,43 +16,29 @@ module.exports.postCard = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((error) => {
       if (error.name === "ValidationError") {
-        return res
-          .status(400)
-          .send({ message: "Os dados fornecidos são inválidos" });
+        error = new BadRequestError("Os dados fornecidos são inválidos");
       }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
 module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.id)
     .orFail(() => {
-      const error = new Error("Nenhum cartão encontrado com esse id");
-      error.statusCode = 404;
-      error.name = "NotFoundError";
-      throw error;
+      throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => {
       if (card.user._id !== req.user._id) {
-        const error = new Error("Usuário não possui autorização");
-        error.statusCode = 403;
-        error.name = "Forbidden";
-        throw error;
+        throw new ForbiddenError("Usuário não possui autorização");
       }
       return card.remove();
     })
     .then(() => res.send({ message: "Cartão excluído com sucesso" }))
     .catch((error) => {
       if (error.name === "CastError") {
-        return res.status(400).send({ message: "Formato de ID não válido" });
+        error = new BadRequestError("Formato de ID não válido");
       }
-      if (error.name === "NotFoundError") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      if (error.name === "Forbidden") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
@@ -57,23 +46,17 @@ module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
-      const error = new Error("Nenhum cartão encontrado com esse id");
-      error.statusCode = 404;
-      error.name = "NotFoundError";
-      throw error;
+      throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
     .catch((error) => {
       if (error.name === "CastError") {
-        return res.status(400).send({ message: "Formato de ID não válido" });
+        error = new BadRequestError("Formato de ID não válido");
       }
-      if (error.name === "NotFoundError") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
 
@@ -81,21 +64,16 @@ module.exports.dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remova _id do array
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
-      const error = new Error("Nenhum cartão encontrado com esse id");
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
     .catch((error) => {
       if (error.name === "CastError") {
-        return res.status(400).send({ message: "Formato de ID não válido" });
+        error = new BadRequestError("Formato de ID não válido");
       }
-      if (error.name === "NotFoundError") {
-        return res.status(error.statusCode).send({ message: error.message });
-      }
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
+      next(error);
     });
 };
