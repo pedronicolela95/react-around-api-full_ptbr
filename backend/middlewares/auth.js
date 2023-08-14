@@ -1,12 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const handleAuthError = (res) => {
-  res.status(401).send({ message: "Autorização necessária" });
-};
+const handleAuthError = (res) => res.status(401).send({ message: "Autorização necessária" });
 
-const handleForbiddenError = (res) => {
-  res.status(403).send({ message: "Acesso proibido" });
-};
+const handleForbiddenError = (res) => res.status(403).send({ message: "Acesso proibido" });
 
 const extractBearerToken = (header) => header.replace("Bearer ", "");
 

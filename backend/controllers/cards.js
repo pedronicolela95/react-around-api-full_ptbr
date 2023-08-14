@@ -6,7 +6,10 @@ const NotFoundError = require("../errors/not-found-err");
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ cards }))
-    .catch((error) => next(error));
+    .catch((err) => {
+      const error = { ...err };
+      next(error);
+    });
 };
 
 module.exports.postCard = (req, res) => {
@@ -14,7 +17,8 @@ module.exports.postCard = (req, res) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send({ card }))
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "ValidationError") {
         error = new BadRequestError("Os dados fornecidos são inválidos");
       }
@@ -34,7 +38,8 @@ module.exports.deleteCard = (req, res) => {
       return card.remove();
     })
     .then(() => res.send({ message: "Cartão excluído com sucesso" }))
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "CastError") {
         error = new BadRequestError("Formato de ID não válido");
       }
@@ -46,13 +51,14 @@ module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
       throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "CastError") {
         error = new BadRequestError("Formato de ID não válido");
       }
@@ -64,13 +70,14 @@ module.exports.dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remova _id do array
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
       throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "CastError") {
         error = new BadRequestError("Formato de ID não válido");
       }

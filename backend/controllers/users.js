@@ -5,12 +5,13 @@ const User = require("../models/user");
 const NotFoundError = require("../errors/not-found-err");
 const BadRequestError = require("../errors/bad-request-err");
 const NotAuthorizedError = require("../errors/not-authorized-err");
-const ConflictError = require("../errors/conflict-error");
+const ConflictError = require("../errors/conflict-err");
 
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch((error) => {
+    .catch((err) => {
+      const error = { ...err };
       next(error);
     });
 };
@@ -24,7 +25,8 @@ module.exports.getUserById = (req, res) => {
       }
       res.send({ user });
     })
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "CastError") {
         error = new BadRequestError("Formato de ID não válido");
       }
@@ -41,7 +43,8 @@ module.exports.getUserInfo = (req, res) => {
       }
       res.send({ user });
     })
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "CastError") {
         error = new BadRequestError("Formato de ID não válido");
       }
@@ -50,7 +53,9 @@ module.exports.getUserInfo = (req, res) => {
 };
 
 module.exports.createUsers = (req, res) => {
-  const { email, name, about, avatar } = req.body;
+  const {
+    email, name, about, avatar,
+  } = req.body;
 
   User.findOne({ email })
     .then((existingUser) => {
@@ -60,17 +65,16 @@ module.exports.createUsers = (req, res) => {
 
       return bcrypt.hash(req.body.password, 10);
     })
-    .then((hash) =>
-      User.create({
-        email,
-        password: hash,
-        name,
-        about,
-        avatar,
-      })
-    )
+    .then((hash) => User.create({
+      email,
+      password: hash,
+      name,
+      about,
+      avatar,
+    }))
     .then((user) => res.send({ user }))
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "ValidationError") {
         error = new BadRequestError("Os dados fornecidos são inválidos");
       }
@@ -84,7 +88,8 @@ module.exports.updateUserProfile = (req, res) => {
     .then((user) => {
       res.send({ user });
     })
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "ValidationError") {
         error = new BadRequestError("Os dados fornecidos são inválidos");
       }
@@ -98,7 +103,8 @@ module.exports.updateUserAvatar = (req, res) => {
     .then((user) => {
       res.send({ user });
     })
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       if (error.name === "ValidationError") {
         error = new BadRequestError("Os dados fornecidos são inválidos");
       }
@@ -117,7 +123,8 @@ module.exports.login = (req, res) => {
         }),
       });
     })
-    .catch((error) => {
+    .catch((err) => {
+      let error = { ...err };
       error = new NotAuthorizedError("Autorização necessária");
       next(error);
     });

@@ -4,11 +4,13 @@ const bodyParser = require("body-parser");
 
 const { PORT = 3000 } = process.env;
 
+const { errors } = require("celebrate");
 const userRoute = require("./routes/users");
 const cardRoute = require("./routes/cards");
-const { auth } = require("./middleware/auth");
+const { auth } = require("./middlewares/auth");
 
 const NotFoundError = require("./errors/not-found-err");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
@@ -17,6 +19,8 @@ mongoose.connect("mongodb://localhost:27017/aroundb", {
 });
 
 app.use(bodyParser.json());
+
+app.use(requestLogger);
 
 app.use(auth);
 
@@ -28,11 +32,16 @@ app.use((req, res, next) => {
   next(error);
 });
 
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.message = err.message || "Um erro ocorreu no servidor";
+app.use(errorLogger);
 
-  res.status(err.statusCode).send({ message: err.message });
+app.use(errors());
+
+app.use((err, req, res, next) => {
+  const error = { ...err };
+  error.statusCode = error.statusCode || 500;
+  error.message = error.message || "Um erro ocorreu no servidor";
+
+  res.status(error.statusCode).send({ message: error.message });
 });
 
 app.listen(PORT);
