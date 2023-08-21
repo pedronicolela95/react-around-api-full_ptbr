@@ -22,8 +22,6 @@ app.use(bodyParser.json());
 
 app.use(requestLogger);
 
-app.use(auth);
-
 app.use(userRoute);
 app.use(cardRoute);
 

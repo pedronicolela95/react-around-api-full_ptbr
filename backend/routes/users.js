@@ -26,7 +26,7 @@ const userSchema = Joi.object({
   password: Joi.string().required(),
   name: Joi.string().min(2).max(30),
   about: Joi.string().min(2).max(30),
-  avatar: Joi.string().required().custom(validateURL),
+  avatar: Joi.string().custom(validateURL),
 });
 
 const objectIdSchema = Joi.string().custom((value, helpers) => {
@@ -41,21 +41,21 @@ router.get("/users", getUsers);
 router.get(
   "/users/:_id",
   celebrate({ [Segments.PARAMS]: { _id: objectIdSchema.required() } }),
-  getUserById,
+  getUserById
 );
 
 router.post(
-  "/sigin",
+  "/signin",
   celebrate({
     [Segments.BODY]: Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
     }),
   }),
-  login,
+  login
 );
 
-router.post("/sigup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
+router.post("/signup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
 
 router.get("/users/me", auth, getUserInfo);
 
@@ -63,14 +63,16 @@ router.patch(
   "/users/me",
   auth,
   celebrate({ [Segments.BODY]: userSchema }),
-  updateUserProfile,
+  updateUserProfile
 );
 
 router.patch(
   "/users/me/avatar",
   auth,
-  celebrate({ [Segments.BODY]: { avatar: userSchema.avatar } }),
-  updateUserAvatar,
+  celebrate({
+    [Segments.BODY]: { avatar: Joi.string().required().custom(validateURL) },
+  }),
+  updateUserAvatar
 );
 
 module.exports = router;
