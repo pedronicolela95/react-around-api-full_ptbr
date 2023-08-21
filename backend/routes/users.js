@@ -5,8 +5,6 @@ const validator = require("validator");
 const { auth } = require("../middlewares/auth");
 
 const {
-  getUsers,
-  getUserById,
   getUserInfo,
   createUsers,
   login,
@@ -36,13 +34,7 @@ const objectIdSchema = Joi.string().custom((value, helpers) => {
   return value;
 }, "object id validation");
 
-router.get("/users", getUsers);
-
-router.get(
-  "/users/:_id",
-  celebrate({ [Segments.PARAMS]: { _id: objectIdSchema.required() } }),
-  getUserById
-);
+router.post("/signup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
 
 router.post(
   "/signin",
@@ -55,14 +47,17 @@ router.post(
   login
 );
 
-router.post("/signup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
-
 router.get("/users/me", auth, getUserInfo);
 
 router.patch(
   "/users/me",
   auth,
-  celebrate({ [Segments.BODY]: userSchema }),
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+    },
+  }),
   updateUserProfile
 );
 
@@ -70,7 +65,7 @@ router.patch(
   "/users/me/avatar",
   auth,
   celebrate({
-    [Segments.BODY]: { avatar: Joi.string().required().custom(validateURL) },
+    [Segments.BODY]: { avatar: Joi.string().custom(validateURL).required() },
   }),
   updateUserAvatar
 );

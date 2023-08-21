@@ -7,7 +7,6 @@ const { PORT = 3000 } = process.env;
 const { errors } = require("celebrate");
 const userRoute = require("./routes/users");
 const cardRoute = require("./routes/cards");
-const { auth } = require("./middlewares/auth");
 
 const NotFoundError = require("./errors/not-found-err");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
@@ -36,8 +35,8 @@ app.use(errors());
 
 app.use((err, req, res, next) => {
   const error = { ...err };
-  error.statusCode = error.statusCode || 500;
-  error.message = error.message || "Um erro ocorreu no servidor";
+  error.statusCode = err.statusCode || 500;
+  error.message = err.message || "Um erro ocorreu no servidor";
 
   res.status(error.statusCode).send({ message: error.message });
 });
