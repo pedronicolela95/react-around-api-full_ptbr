@@ -35,8 +35,7 @@ const userSchema = new mongoose.Schema({
       "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
     validate: {
       validator(v) {
-        const regex =
-          /^https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}/;
+        const regex = /^https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}/;
         return regex.test(v);
       },
       message: (props) => `${props.value} não é uma URL válida`,
@@ -45,7 +44,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(
+  email,
+  password,
+) {
   return this.findOne({ email })
     .select("+password")
     .then((user) => {

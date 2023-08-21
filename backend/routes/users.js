@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { celebrate, Joi, Segments } = require("celebrate");
-const mongoose = require("mongoose");
 const validator = require("validator");
 const { auth } = require("../middlewares/auth");
 
@@ -27,13 +26,6 @@ const userSchema = Joi.object({
   avatar: Joi.string().custom(validateURL),
 });
 
-const objectIdSchema = Joi.string().custom((value, helpers) => {
-  if (!mongoose.Types.ObjectId.isValid(value)) {
-    return helpers.message("ID inválido");
-  }
-  return value;
-}, "object id validation");
-
 router.post("/signup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
 
 router.post(
@@ -44,7 +36,7 @@ router.post(
       password: Joi.string().required(),
     }),
   }),
-  login
+  login,
 );
 
 router.get("/users/me", auth, getUserInfo);
@@ -58,7 +50,7 @@ router.patch(
       about: Joi.string().min(2).max(30),
     },
   }),
-  updateUserProfile
+  updateUserProfile,
 );
 
 router.patch(
@@ -67,7 +59,7 @@ router.patch(
   celebrate({
     [Segments.BODY]: { avatar: Joi.string().custom(validateURL).required() },
   }),
-  updateUserAvatar
+  updateUserAvatar,
 );
 
 module.exports = router;
