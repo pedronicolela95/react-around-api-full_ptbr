@@ -64,11 +64,11 @@ module.exports.getUserInfo = (req, res, next) => {
       res.send({ user });
     })
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "CastError") {
-        error = new BadRequestError("Formato de ID não válido");
+      if (err.name === "CastError") {
+        const error = new BadRequestError("Formato de ID não válido");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };
 
@@ -79,11 +79,11 @@ module.exports.updateUserProfile = (req, res, next) => {
       res.send({ user });
     })
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "ValidationError") {
-        error = new BadRequestError("Os dados fornecidos são inválidos");
+      if (err.name === "ValidationError") {
+        const error = new BadRequestError("Formato de ID não válido");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };
 
@@ -94,10 +94,10 @@ module.exports.updateUserAvatar = (req, res, next) => {
       res.send({ user });
     })
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "ValidationError") {
-        error = new BadRequestError("Os dados fornecidos são inválidos");
+      if (err.name === "ValidationError") {
+        const error = new BadRequestError("Os dados fornecidos são inválidos");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };

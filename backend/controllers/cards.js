@@ -7,8 +7,7 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ cards }))
     .catch((err) => {
-      const error = { ...err };
-      next(error);
+      next(err);
     });
 };
 
@@ -18,32 +17,32 @@ module.exports.postCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "ValidationError") {
-        error = new BadRequestError("Os dados fornecidos são inválidos");
+      if (err.name === "ValidationError") {
+        const error = new BadRequestError("Os dados fornecidos são inválidos");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findById(req.params.id)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => {
-      if (card.user._id !== req.user._id) {
+      if (card.owner._id.toString() !== req.user._id.toString()) {
         throw new ForbiddenError("Usuário não possui autorização");
       }
-      return card.remove();
+      return Card.findByIdAndDelete(req.params.cardId);
     })
     .then(() => res.send({ message: "Cartão excluído com sucesso" }))
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "CastError") {
-        error = new BadRequestError("Formato de ID não válido");
+      if (err.name === "CastError") {
+        const error = new BadRequestError("Formato de ID não válido");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };
 
@@ -51,18 +50,18 @@ module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
       throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "CastError") {
-        error = new BadRequestError("Formato de ID não válido");
+      if (err.name === "CastError") {
+        const error = new BadRequestError("Formato de ID não válido");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };
 
@@ -70,17 +69,17 @@ module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remova _id do array
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
       throw new NotFoundError("Nenhum cartão encontrado com esse id");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
-      let error = { ...err };
-      if (error.name === "CastError") {
-        error = new BadRequestError("Formato de ID não válido");
+      if (err.name === "CastError") {
+        const error = new BadRequestError("Formato de ID não válido");
+        next(error);
       }
-      next(error);
+      next(err);
     });
 };

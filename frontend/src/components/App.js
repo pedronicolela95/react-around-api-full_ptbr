@@ -182,7 +182,7 @@ function App(props) {
 
   function handleDeleteCard(card) {
     // Envie uma solicitação para a API e obtenha os dados do cartão atualizados
-    console.log(card);
+
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
     });
