@@ -126,7 +126,6 @@ function App(props) {
     api
       .getInitialCards()
       .then((res) => {
-        console.log(res);
         setCards(res.cards);
       })
       .catch((err) => {
@@ -173,10 +172,11 @@ function App(props) {
   function handleCardLike(card) {
     // Verifique mais uma vez se esse cartão já foi curtido
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
     // Envie uma solicitação para a API e obtenha os dados do cartão atualizados
-    api.likeCard(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    api.likeCard(card._id, isLiked).then((res) => {
+      setCards((state) =>
+        state.map((c) => (c._id === card._id ? res.card : c))
+      );
     });
   }
 

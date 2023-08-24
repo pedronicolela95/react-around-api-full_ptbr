@@ -46,7 +46,7 @@ export default class Api {
 
   likeCard(cardId, isLikedByUser) {
     const method = isLikedByUser ? "DELETE" : "PUT";
-    const url = this.baseUrl + "/cards/likes/" + cardId;
+    const url = this.baseUrl + "/cards/" + cardId + "/likes";
     const data = { headers: this.headers, method: method };
 
     return fetch(url, data).then((res) => {
