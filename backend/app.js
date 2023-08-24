@@ -28,6 +28,8 @@ const allowedCors = [
   "http://www.nicolelatripleten.mooo.com",
   "www.nicolelatripleten.mooo.com",
   "localhost:3000",
+  "http://localhost:3000",
+  "https://localhost:3000",
 ];
 
 app.use(function (req, res, next) {
