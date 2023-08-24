@@ -70,15 +70,16 @@ function Main(props) {
         </button>
       </section>
       <ul className="posts">
-        {cards.map((item) => (
-          <Card
-            key={item._id}
-            card={item}
-            onCardClick={handleCardClick}
-            onCardLike={onCardLike}
-            onCardDelete={onCardDelete}
-          />
-        ))}
+        {cards != null &&
+          cards.map((item) => (
+            <Card
+              key={item._id}
+              card={item}
+              onCardClick={handleCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+            />
+          ))}
       </ul>
 
       <EditProfilePopup

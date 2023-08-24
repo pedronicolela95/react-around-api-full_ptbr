@@ -20,9 +20,8 @@ function Card(props) {
   }
 
   const { name, link, likes, owner } = props.card;
-  const ownerId = owner._id;
   const likeNumber = likes.length;
-  const isOwned = ownerId === currentUser._id;
+  const isOwned = owner === currentUser._id;
   const isLiked = likes.some((i) => i._id === currentUser._id);
 
   return (

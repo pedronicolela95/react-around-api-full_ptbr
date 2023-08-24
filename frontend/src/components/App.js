@@ -37,7 +37,7 @@ function App(props) {
   const api = new Api({
     baseUrl: BASE_URL,
     headers: {
-      authorization: token,
+      authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
@@ -75,7 +75,7 @@ function App(props) {
   function authenticateWithToken(token) {
     return authenticate(token)
       .then((res) => {
-        setEmail(res.data.email);
+        setEmail(res.user.email);
         setIsLoggedIn(true);
         return res;
       })
@@ -115,7 +115,7 @@ function App(props) {
     api
       .getProfileInfo()
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.user);
       })
       .catch((err) => {
         console.log(err);
@@ -126,7 +126,8 @@ function App(props) {
     api
       .getInitialCards()
       .then((res) => {
-        setCards(res);
+        console.log(res);
+        setCards(res.cards);
       })
       .catch((err) => {
         console.log(err);
@@ -136,7 +137,7 @@ function App(props) {
   React.useEffect(() => {
     authenticateWithToken(token)
       .then((res) => {
-        if (res.data.email) {
+        if (res.user.email) {
           history.push("/");
         }
       })
@@ -149,7 +150,7 @@ function App(props) {
     api
       .updateProfileInfo(profileInfo)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.user);
         closeAllPopups();
       })
       .catch((err) => {
@@ -161,7 +162,7 @@ function App(props) {
     api
       .updateProfileImage(profileInfo)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.user);
         closeAllPopups();
       })
       .catch((err) => {
@@ -181,6 +182,7 @@ function App(props) {
 
   function handleDeleteCard(card) {
     // Envie uma solicitação para a API e obtenha os dados do cartão atualizados
+    console.log(card);
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
     });
@@ -190,8 +192,8 @@ function App(props) {
     // Envie uma solicitação para a API e obtenha os dados do cartão atualizados
     api
       .postCards(card)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
+      .then((res) => {
+        setCards([res.card, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
