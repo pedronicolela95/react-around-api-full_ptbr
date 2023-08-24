@@ -26,6 +26,12 @@ const userSchema = Joi.object({
   avatar: Joi.string().custom(validateURL),
 });
 
+router.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("O servidor travará agora");
+  }, 0);
+});
+
 router.post("/signup", celebrate({ [Segments.BODY]: userSchema }), createUsers);
 
 router.post(
