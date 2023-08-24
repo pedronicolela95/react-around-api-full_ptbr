@@ -17,6 +17,29 @@ mongoose.connect("mongodb://localhost:27017/aroundb", {
   useNewUrlParser: true,
 });
 
+const allowedCors = [
+  "https://api.nicolelatripleten.mooo.com",
+  "http://api.nicolelatripleten.mooo.com",
+  "api.nicolelatripleten.mooo.com",
+  "https://nicolelatripleten.mooo.com",
+  "http://nicolelatripleten.mooo.com",
+  "nicolelatripleten.mooo.com",
+  "https://www.nicolelatripleten.mooo.com",
+  "http://www.nicolelatripleten.mooo.com",
+  "www.nicolelatripleten.mooo.com",
+  "localhost:3000",
+];
+
+app.use(function (req, res, next) {
+  const { origin } = req.headers; // salvando a fonte da requisição na variável 'origin'
+  // verificando se a origem da requisição está mencionada na lista de permitidos
+  if (allowedCors.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  next();
+});
+
 app.use(bodyParser.json());
 
 app.use(requestLogger);

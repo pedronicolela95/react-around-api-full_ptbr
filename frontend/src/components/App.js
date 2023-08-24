@@ -8,7 +8,7 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 
-import api from "../utils/api";
+import Api from "../utils/api";
 import { authorize, authenticate } from "../utils/auth";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -31,6 +31,16 @@ function App(props) {
   const [token, setToken] = React.useState(localStorage.getItem("jwt"));
 
   const history = useHistory();
+
+  const BASE_URL = "https://api.nicolelatripleten.mooo.com";
+
+  const api = new Api({
+    baseUrl: BASE_URL,
+    headers: {
+      authorization: token,
+      "Content-Type": "application/json",
+    },
+  });
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);

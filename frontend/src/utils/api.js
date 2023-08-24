@@ -1,4 +1,4 @@
-class Api {
+export default class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
     this.headers = options.headers;
@@ -111,16 +111,3 @@ class Api {
     });
   }
 }
-
-const apiToken = "30daf07f-92e8-4bf2-9f92-48f8d54dd26d";
-const groupId = "web_ptbr_cohort_03";
-
-const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/" + groupId,
-  headers: {
-    authorization: apiToken,
-    "Content-Type": "application/json",
-  },
-});
-
-export default api;
