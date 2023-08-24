@@ -1,6 +1,36 @@
-# react-around-api-full
-The API of "Around the U.S." with authorization and registration handled by the back-end server.
+# Projeto 15: Around the World
 
-This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users. Please add to this readme:
-* a link to repository with the complete React application which uses this API;
-* a link to the website that hosts your API.
+### Visão geral
+
+- Autor
+- Introdução
+- Objetivos
+- Tecnologias utilizadas
+- Imagens
+- Dominios
+
+**Autor**
+
+Pedro Nicolela em agosto de 2023.
+
+**Introdução**
+
+Nesse projetos construimos uma tela semelhante a uma rede social, em que os usuários compartilham fotos. Para acessá-la o usuário precisa realizar o login e, caso ele ainda não tenha sido registrado, ele pode se registrar.
+
+**Objetivos**
+
+Projeto objetiva construir uma API e a subir em uma maquina virtual para ficar disponivel para todos.
+
+**Tecnologias utilizadas**
+
+Foram utilizadas HTML, CSS, JS e o framework React
+
+**Imagens**
+
+Imagens foram obtidas pelo próprio Bootcamp através de URLs fornecidas
+
+**Dominios**
+
+- https://api.nicolelatripleten.mooo.com
+- https://www.nicolelatripleten.mooo.com
+- https://nicolelatripleten.mooo.com
