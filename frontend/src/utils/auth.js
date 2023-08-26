@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.nicolelatripleten.mooo.com";
+export const BASE_URL = "https://backend-around-tripleten.onrender.com";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {

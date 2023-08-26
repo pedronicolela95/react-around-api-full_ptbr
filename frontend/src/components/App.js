@@ -32,7 +32,7 @@ function App(props) {
 
   const history = useHistory();
 
-  const BASE_URL = "https://api.nicolelatripleten.mooo.com";
+  const BASE_URL = "https://backend-around-tripleten.onrender.com";
 
   const api = new Api({
     baseUrl: BASE_URL,
