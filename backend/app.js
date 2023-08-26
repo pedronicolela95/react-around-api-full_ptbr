@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -14,9 +16,13 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/aroundb", {
-  useNewUrlParser: true,
-});
+mongoose
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("DB connect success");
+  });
 
 app.use(cors());
 app.options("*", cors());
