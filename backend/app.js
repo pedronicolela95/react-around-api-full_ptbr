@@ -16,16 +16,9 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
-mongoose
-  .connect(process.env.DB_URL, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log("DB connect success");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true,
+});
 
 app.use(cors());
 app.options("*", cors());
