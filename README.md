@@ -31,6 +31,5 @@ Imagens foram obtidas pelo próprio Bootcamp através de URLs fornecidas
 
 **Dominios**
 
-- https://api.nicolelatripleten.mooo.com
-- https://www.nicolelatripleten.mooo.com
-- https://nicolelatripleten.mooo.com
+- https://react-around-api-full-ptbr.vercel.app/
+- https://backend-around-tripleten.onrender.com
