@@ -22,6 +22,9 @@ mongoose
   })
   .then(() => {
     console.log("DB connect success");
+  })
+  .catch((err) => {
+    console.log(err);
   });
 
 app.use(cors());
