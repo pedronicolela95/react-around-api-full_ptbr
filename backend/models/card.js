@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { isValidAvatarURL } = require("../utils/helpers");
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -10,11 +11,7 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     validate: {
-      validator(v) {
-        const regex = /^https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}/;
-        return regex.test(v);
-      },
-      message: (props) => `${props.value} não é uma URL válida`,
+      validator: isValidAvatarURL,
     },
     required: true,
   },

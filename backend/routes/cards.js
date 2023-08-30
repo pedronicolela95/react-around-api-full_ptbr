@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const { celebrate, Joi, Segments } = require("celebrate");
 const mongoose = require("mongoose");
-const validator = require("validator");
 const { auth } = require("../middlewares/auth");
+const { validateURL } = require("../utils/helpers");
 
 const {
   getCards,
@@ -11,13 +11,6 @@ const {
   likeCard,
   dislikeCard,
 } = require("../controllers/cards");
-
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
 
 const objectIdSchema = Joi.string().custom((value, helpers) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {

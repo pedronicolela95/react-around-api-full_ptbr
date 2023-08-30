@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { celebrate, Joi, Segments } = require("celebrate");
-const validator = require("validator");
 const { auth } = require("../middlewares/auth");
+const { validateURL } = require("../utils/helpers");
 
 const {
   getUserInfo,
@@ -10,13 +10,6 @@ const {
   updateUserProfile,
   updateUserAvatar,
 } = require("../controllers/users");
-
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
 
 const userSchema = Joi.object({
   email: Joi.string().email().required(),
